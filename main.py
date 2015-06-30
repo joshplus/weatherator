@@ -11,6 +11,7 @@ import sqlite3
 __author__ = "josh"
 __date__ = "$Jun 27, 2015 8:30:40 PM$"
 
+
 class WXConnector:
     conn = 0
     cur = 0
@@ -37,8 +38,28 @@ class WXConnector:
         humidity=yahoo["atmosphere"]["humidity"]
         this.save_wx(zipcode,temp,humidity,pressure,windspeed,direction)
 
+    def get_last(this, value, count,zip):
+        #fields=(temp,humidity,pressure,windspeed,direction)
+        query="SELECT time, %s FROM weather WHERE zip=? ORDER BY time DESC LIMIT ?" % value
+        param=(zip,count);
+        this.cur.execute(query,param)
+        return this.cur.fetchmany(count)
+
+
+    def __getattr__(this, name):
+        def method(*args):
+            parts=name.split("_",3)
+            if parts[0] == "getlast":
+                sa=this.get_last(parts[2], int(parts[1]),args[0])
+                return sa
+            else:
+                print("Unknown method " + name)
+        return method
+
 
 if __name__ == "__main__":
     wxc = WXConnector()
     wxc.db_connect()
     wxc.load_temp(22041)
+    x=wxc.getlast_20_temp(22041);
+    print x    
