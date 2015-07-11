@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="http://code.highcharts.com/highcharts.js"></script>
+<head>
+	<meta charset="utf-8"/>
+	<title>Weatherator</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1" name="viewport"/>
+</head>
+<body>
+	<script>
+	Highcharts.setOptions({
+	  global: {
+	    useUTC: false
+	  }
+	})
+
+	$(document).ready(function() {
+
+	    var options = {
+		chart: {
+		    renderTo: 'container',
+		    type: 'spline',
+				width: 600,
+				height: 400,
+		},
+			title: {
+		    text: 'Today\'s temps in Boise, ID & Falls Church, VA'
+		},
+			xAxis: {
+		    type: 'datetime',
+			
+		    dateTimeLabelFormats: { // don't display the dummy year
+		        month: '%b \'%y',
+					hour: '%b %e, %H:%M',
+		        
+		    },
+		    title: {
+		        text: 'Date'
+		    }
+		},
+		yAxis: {
+		    title: {
+		        text: 'temp (F)'
+		    },
+		    
+		},
+			plotOptions: {
+		    series: {
+		        lineWidth: 5
+		    },
+				marker: {
+		            enabled: false
+		        }
+		},
+		series: []
+	    };
+
+	    $.getJSON('weather_log', function(data) {
+		options.series = data;
+			console.log(data);
+		var chart = new Highcharts.Chart(options);
+	    });
+
+	});
+</script>
+
+</body>
+</html>

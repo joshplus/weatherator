@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # To change this license header, choose License Headers in Project Properties.
 # To change this template file, choose Tools | Templates
 # and open the template in the editor.
@@ -26,7 +27,7 @@ class WXConnector:
         query="INSERT INTO WEATHER (zip, temp, pressure, humidity,windspeed, direction) VALUES (?,?,?,?,?,?);"
         this.cur.execute(query,param)
         this.conn.commit()
-        print "WX saved for %d" % zipcode
+        print("WX saved for {0:d}".format(zipcode))
 
     def load_temp(this, zipcode):
         yahoo = pywapi.get_weather_from_yahoo(str(zipcode))
@@ -61,5 +62,6 @@ if __name__ == "__main__":
     wxc = WXConnector()
     wxc.db_connect()
     wxc.load_temp(22041)
+    wxc.load_temp(83715)
     x=wxc.getlast_20_temp(22041);
-    print x    
+    print(x)
