@@ -27,7 +27,7 @@ class WXConnector:
         query="INSERT INTO WEATHER (zip, temp, pressure, humidity,windspeed, direction) VALUES (?,?,?,?,?,?);"
         this.cur.execute(query,param)
         this.conn.commit()
-        print("WX saved for {0:d}".format(zipcode))
+        #print("WX saved for {0:d}".format(zipcode))
 
     def load_temp(this, zipcode):
         yahoo = pywapi.get_weather_from_yahoo(str(zipcode))
@@ -41,7 +41,7 @@ class WXConnector:
 
     def get_last(this, value, count,zip):
         #fields=(temp,humidity,pressure,windspeed,direction)
-        query="SELECT time, %s FROM weather WHERE zip=? ORDER BY time DESC LIMIT ?" % value
+        query="SELECT %s FROM weather WHERE zip=? ORDER BY time DESC LIMIT ?" % value
         param=(zip,count);
         this.cur.execute(query,param)
         return this.cur.fetchmany(count)
@@ -63,5 +63,5 @@ if __name__ == "__main__":
     wxc.db_connect()
     wxc.load_temp(22041)
     wxc.load_temp(83715)
-    x=wxc.getlast_20_temp(22041);
-    print(x)
+    #x=wxc.getlast_20_temp(22041);
+    #print(x)

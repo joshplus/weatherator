@@ -57,7 +57,7 @@
 		series: []
 	    };
 
-	    $.getJSON('weather_log', function(data) {
+	    $.getJSON('/data/22041,83715', function(data) {
 		options.series = data;
 			console.log(data);
 		var chart = new Highcharts.Chart(options);
